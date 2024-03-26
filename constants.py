@@ -21,3 +21,5 @@ supported_currencies = {
     "PLN": "Polish Złoty",
     "EUR": "Euro",
 }
+
+supported_coins = ['TON', 'BTC', 'ETH', 'USDT', 'TRX']

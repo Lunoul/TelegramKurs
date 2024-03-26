@@ -84,6 +84,44 @@ async def currency_callback(query: types.CallbackQuery, callback_data: dict):
     default_currency = selected_currency
     await query.message.edit_text(f'Основная валюта изменена на {supported_currencies[selected_currency]}')
 
+@dp.message_handler(regexp=r"^[A-Z]+$")  # Match uppercase coin symbols
+async def inline_rate_handler(message: types.Message):
+    coin_symbol = message.text.upper()
+    prices = await get_crypto_prices(default_currency)
+
+    if 'error' in prices:
+        error_message = prices['error']
+        await message.reply(f'Ошибка: {error_message}')
+    elif coin_symbol not in prices:
+        await message.reply(f"Неизвестная монета: {coin_symbol}")
+    else:
+        usdt_price = await get_crypto_prices('USDT')
+        response_text = f"[{coin_symbol}]({coin_links.get(coin_symbol, '')}) = {usdt_price[coin_symbol]:.2f} USDT / {prices[coin_symbol]:.2f} {default_currency}"
+        await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN, disable_web_page_preview=True)
+
+@dp.inline_handler()
+async def inline_query_handler(query: types.InlineQuery):
+    query_text = query.query.upper()  # Convert query to uppercase
+    results = []
+
+    if query_text:  # If there's a query, filter coins
+        filtered_coins = [coin for coin in supported_coins if query_text in coin]
+    else:
+        filtered_coins = supported_coins  # Show all coins if no query
+
+    for coin in filtered_coins:
+        coin_link = coin_links.get(coin, '')
+        result = types.InlineQueryResultArticle(
+            id=coin,
+            title=coin,
+            url=coin_link,
+            input_message_content=types.InputTextMessageContent(
+                message_text=f"{coin} = ..."  # Placeholder for rate
+            )
+        )
+        results.append(result)
+
+    await query.answer(results, cache_time=1)  # Cache results for 1 second
 
 # Запуск бота
 if __name__ == '__main__':

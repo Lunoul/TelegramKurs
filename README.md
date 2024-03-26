@@ -1,15 +1,15 @@
 Sends the rate to the Telegram bot using the coinmarketcap API 
 
-## Need to fix
-- [ ] bug with links and bold text (html?)
-- [ ] variations to change uah
-
 ## Features
 - [X] **`/start`**: Sends a welcome message to the user and explains how the bot works.
-- [ ] Subscribe checker
+
 - [X] Referal system
 - [ ] Inline rate search
-- [ ] analitics
+
+
+## Maybe imposible
+- [ ] analitics (idk how to do it)
+- [ ] Subscribe checker (Im lazy to do it)
 
 ## How to use
 1. Clone this repository
