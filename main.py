@@ -65,13 +65,25 @@ async def prices_command(message: types.Message):
         error_message = prices_usdt.get('error', '') or prices_uah.get('error', '')
         await message.reply(f'Ошибка: {error_message}')
     else:
+        coin_links = {
+            'TON': 'https://coinmarketcap.com/currencies/toncoin',
+            'ETH': 'https://coinmarketcap.com/currencies/ethereum/',
+            'USDT': 'https://coinmarketcap.com/currencies/tether/',
+            'TRX': 'https://coinmarketcap.com/currencies/tron/'
+        }
+
         response_text = ''
         for symbol in prices_usdt.keys():
+
+            response_text += f'[{symbol}]() = '
             if symbol == 'USDT':
-                response_text += f'***{symbol}*** = {prices_uah[symbol]:.2f} ***UAH***\n'
+                response_text += f'{prices_uah[symbol]:.2f} ***UAH*** \n[Купить криптовалюту]({Referal}) / [Продать криптовалюту]({Referal})\n'
             else:
-                response_text += f'***{symbol}*** = {prices_usdt[symbol]:.2f} ***USDT*** \\| {prices_uah[symbol]:.2f} ***UAH***\n'
-        await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN)
+                response_text += f'{prices_usdt[symbol]:.2f} ***USDT*** / {prices_uah[symbol]:.2f} ***UAH*** \n'
+
+            
+
+        await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN, disable_web_page_preview=True)
 
 # Запуск бота
 if __name__ == '__main__':
