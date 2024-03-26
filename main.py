@@ -3,27 +3,14 @@ import json
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.callback_data import CallbackData
 
-from config import BOT_TOKEN, API_KEY, ReferalXrocket, ReferalCrypto
+from config import *
+from constants import *
 
 
-# Создание объектов Bot и Dispatcher
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
-
 # Callback data for currency selection buttons
 currency_cb = CallbackData("currency", "code")
-
-# Default currency
-default_currency = "EUR"
-
-# Supported currencies
-supported_currencies = {
-    "UAH": "Ukrainian Hryvnia",
-    "RUB": "Russian Ruble",
-    "PLN": "Polish Złoty",
-    "EUR": "Euro",
-}
-
 
 # Function to get cryptocurrency prices in a given currency
 async def get_crypto_prices(currency):
@@ -55,8 +42,7 @@ async def start_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(types.KeyboardButton('Курс 🚀'))
     keyboard.add(types.KeyboardButton('Смена основной валюты'))
-    await message.reply('Привет! Я могу показать тебе курсы криптовалют.', reply_markup=keyboard)
-
+    await message.reply(WelcomeMessage, reply_markup=keyboard, parse_mode=types.ParseMode.MARKDOWN)
 
 # Handler for "Курс 🚀" button
 @dp.message_handler(text='Курс 🚀')
@@ -67,14 +53,6 @@ async def prices_command(message: types.Message):
         error_message = prices['error']
         await message.reply(f'Ошибка: {error_message}')
     else:
-        coin_links = {
-            'TON': 'https://coinmarketcap.com/currencies/toncoin/',
-            'BTC': 'https://coinmarketcap.com/currencies/bitcoin/',
-            'ETH': 'https://coinmarketcap.com/currencies/ethereum/',
-            'TRX': 'https://coinmarketcap.com/currencies/tron/',
-            'USDT': 'https://coinmarketcap.com/currencies/tether/',
-        }
-
         response_text = ''
         for symbol in prices.keys():
             coin_link = coin_links.get(symbol, '')
@@ -84,7 +62,7 @@ async def prices_command(message: types.Message):
                 usdt_price = await get_crypto_prices('USDT')  # Get USDT price for comparison
                 response_text += f'[{symbol}]({coin_link}) = {usdt_price[symbol]:.2f} ***USDT*** / {prices[symbol]:.2f} ***{default_currency}*** \n'
 
-        response_text += f'\n[Торговать криптовалютой в XRocketBot]({ReferalXrocket})\n[Торговать криптовалютой в Cryptobot]({ReferalCrypto})\n'
+        response_text += f'\n[{ReferalMessagexRocket}]({ReferalxRocket})\n[{ReferalMessageCrypto}]({ReferalCrypto})\n'
 
         await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN, disable_web_page_preview=True)
 

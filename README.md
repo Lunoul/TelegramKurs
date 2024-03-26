@@ -5,11 +5,10 @@ Sends the rate to the Telegram bot using the coinmarketcap API
 - [ ] variations to change uah
 
 ## Features
-- [ ] **`/start`**: Sends a welcome message to the user and explains how the bot works.
+- [X] **`/start`**: Sends a welcome message to the user and explains how the bot works.
 - [ ] Subscribe checker
 - [X] Referal system
-- [ ] Inline rate
-- [ ] anti spam inline buttons
+- [ ] Inline rate search
 - [ ] analitics
 
 ## How to use
