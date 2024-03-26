@@ -2,7 +2,7 @@ import requests
 import json
 from aiogram import Bot, Dispatcher, executor, types
 
-from config import BOT_TOKEN, API_KEY
+from config import BOT_TOKEN, API_KEY, Referal
 
 
 # Создание объектов Bot и Dispatcher
@@ -40,7 +40,7 @@ async def get_crypto_prices_uah():
         'X-CMC_PRO_API_KEY': API_KEY
     }
     params = {
-        'symbol': 'TON,BTC,ETH,BOLT,USDT,TRX',
+        'symbol': 'TON,BTC,ETH,USDT,TRX',
         'convert': 'UAH'
     }
     response = requests.get(url, headers=headers, params=params).json()
@@ -70,7 +70,7 @@ async def prices_command(message: types.Message):
             if symbol == 'USDT':
                 response_text += f'***{symbol}*** = {prices_uah[symbol]:.2f} ***UAH***\n'
             else:
-                response_text += f'***{symbol}*** = {prices_usdt[symbol]:.2f} ***USDT*** / {prices_uah[symbol]:.2f} ***UAH***\n'
+                response_text += f'***{symbol}*** = {prices_usdt[symbol]:.2f} ***USDT*** \\| {prices_uah[symbol]:.2f} ***UAH***\n'
         await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN)
 
 # Запуск бота
