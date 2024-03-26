@@ -1,3 +1,4 @@
 BOT_TOKEN = '' # Telegram bot token
 API_KEY = '' # Coinmarketcap Api key
-Referal = '' # Your referal link to XRocket p2p
+ReferalXrocket = '' # Your referal link to XRocket p2p
+ReferalCrypto = '' # Your referal link to CryptoBot

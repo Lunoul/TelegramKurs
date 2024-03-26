@@ -2,7 +2,7 @@ import requests
 import json
 from aiogram import Bot, Dispatcher, executor, types
 
-from config import BOT_TOKEN, API_KEY, Referal
+from config import BOT_TOKEN, API_KEY, ReferalXrocket, ReferalCrypto
 
 
 # Создание объектов Bot и Dispatcher
@@ -66,21 +66,23 @@ async def prices_command(message: types.Message):
         await message.reply(f'Ошибка: {error_message}')
     else:
         coin_links = {
-            'TON': 'https://coinmarketcap.com/currencies/toncoin',
+            'TON': 'https://coinmarketcap.com/currencies/toncoin/',
+            'BTC': 'https://coinmarketcap.com/currencies/bitcoin/',
             'ETH': 'https://coinmarketcap.com/currencies/ethereum/',
+            'TRX': 'https://coinmarketcap.com/currencies/tron/',
             'USDT': 'https://coinmarketcap.com/currencies/tether/',
-            'TRX': 'https://coinmarketcap.com/currencies/tron/'
         }
 
         response_text = ''
         for symbol in prices_usdt.keys():
-
-            response_text += f'[{symbol}]() = '
+            coin_link = coin_links.get(symbol, '')
+            response_text += f'[{symbol}]({coin_link}) = '
             if symbol == 'USDT':
-                response_text += f'{prices_uah[symbol]:.2f} ***UAH*** \n[Купить криптовалюту]({Referal}) / [Продать криптовалюту]({Referal})\n'
+                response_text += f'{prices_uah[symbol]:.2f} ***UAH*** \n'
             else:
                 response_text += f'{prices_usdt[symbol]:.2f} ***USDT*** / {prices_uah[symbol]:.2f} ***UAH*** \n'
 
+        response_text += f'[Торговать криптовалютой в XRocketBot]({ReferalXrocket})\n[Торговать криптовалютой в Cryptobot]({ReferalCrypto})\n'
             
 
         await message.reply(response_text, parse_mode=types.ParseMode.MARKDOWN, disable_web_page_preview=True)
