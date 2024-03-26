@@ -6,10 +6,10 @@ Sends the rate to the Telegram bot using the coinmarketcap API
 
 ## Features
 - [ ] **`/start`**: Sends a welcome message to the user and explains how the bot works.
-- [ ] **`/help`**: Sends a message explaining how the bot works.
 - [ ] Subscribe checker
-- [ ] Referal system
+- [X] Referal system
 - [ ] Inline rate
+- [ ] anti spam inline buttons
 - [ ] analitics
 
 ## How to use
